@@ -1,0 +1,1 @@
+s.sh txt info 
