@@ -6,7 +6,6 @@ class Config:
 		self.__read_config(cfg_filename)
 
 	def __read_config(self, file_name):
-		self.copy_direct = {}
 		self.copy_compress = {}
 		print file_name
 		f = open(file_name, 'r')
@@ -20,16 +19,9 @@ class Config:
 			line = line.replace("\t","")
 			line = line.replace("\n","")
 			
-			# => 直接拷贝
+			# =*> 压缩拷贝
 			if line.find("=>") > 0:
 				line_split = line.split("=>")
-				if len(line_split) == 2:
-					self.copy_direct[line_split[0]] = line_split[1]
-				continue
-			
-			# =*> 压缩拷贝
-			if line.find("=*>") > 0:
-				line_split = line.split("=*>")
 				if len(line_split) == 2:
 					self.copy_compress[line_split[0]] = line_split[1]
 				continue

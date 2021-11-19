@@ -62,26 +62,6 @@ def RemoteLocalFileMd5Equal(svr_ip, svr_passwd, svr_user, remote_fullname, local
 	return False
 
 def DoCopyFiles(cfg):
-	for (fname,tname) in cfg.copy_direct.items():
-		#print "k:[" + k + "]v:[" + v
-		if fname[0] == '/':
-			from_name = fname
-		else:
-			from_name = os.path.join(cfg.from_prefix, fname)
-		if tname[0] == '/':
-			to_name = tname
-		else:
-			to_name = os.path.join(cfg.to_prefix, tname)
-		
-		# 如果md5相等,则不用拷贝
-		md5equal = RemoteLocalFileMd5Equal(cfg.server_ip, cfg.server_pass, cfg.server_user, to_name, from_name)
-		if md5equal:
-			continue
-		
-		DoRemoteCmd(cfg.server_ip, cfg.server_pass, cfg.server_user, "mkdir -p " + os.path.dirname(to_name))
-		
-		ScpFileToRemote(cfg.server_ip, cfg.server_pass, cfg.server_user, from_name, os.path.dirname(to_name))
-		
 	for (fname,tname) in cfg.copy_compress.items():
 		#print "k:[" + k + "]v:[" + v
 		if fname[0] == '/':
@@ -104,7 +84,7 @@ def DoCopyFiles(cfg):
 
 def Deploy():
 	#'检查参数'
-	if len(sys.argv) < 3:
+	if len(sys.argv) < 2:
 		print "Usage: python deploy.py configfilename [DEBUG]"
 		print "Options: "
 		print "[configfilename] : config.conf"
